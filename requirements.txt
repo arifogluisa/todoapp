@@ -1,0 +1,5 @@
+Django==3.2.7
+psycopg2==2.9.2
+celery==5.2.1
+redis==4.0.2
+django-crispy-forms==1.12.0

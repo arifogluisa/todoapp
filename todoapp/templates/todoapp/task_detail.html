@@ -1,0 +1,42 @@
+{% extends 'todoapp/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<h1> Title: {{task.title}}</h1>
+<h3>Description: {{task.description}}</h3>
+<h3>Deadline: {{task.deadline}}</h3>
+
+<br/><br/>
+
+
+<h2>Comments...</h2>
+
+
+<br/><br/>
+{% if comments %}
+    {% for comment in comments %}
+        <strong>{{ comment.commenter|title }} - {{comment.comment_date}}</strong>
+        <br/>
+         {{ comment.body }}
+         <a href="{% url 'comment_update' comment.id %}">Edit</a>
+         <a href="{% url 'comment_delete' comment.id %}">Delete</a>
+         <br/><br/>
+         <hr>
+    {% endfor %}
+{% else %}
+    <h4>No comments</h4>
+{% endif %}
+{% if request.user == task.user %}
+<br/><br/>
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        {{ comment_form|crispy }}
+    </fieldset>
+    <div class="form-group">
+        <button class="btn btn-outline-info" type="submit">Comment</button>
+    </div>
+</form>
+{% endif %}
+{% endblock content %}
